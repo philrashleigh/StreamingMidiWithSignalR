@@ -32,12 +32,14 @@ namespace PhilipRashleigh.StreamingMidi.Server
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting();
+            
             app.UseCors(options =>
             {
                 options
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("https://localhost:44387")
+                    .WithOrigins("https://localhost:5001")
                     .AllowCredentials();
             });
 

@@ -4,8 +4,9 @@
         <TargetFramework>netcoreapp3.0</TargetFramework>
     </PropertyGroup>
 
+
     <ItemGroup>
-      <ProjectReference Include="..\PhilipRashleigh.StreamingMidi.Core\PhilipRashleigh.StreamingMidi.Core.csproj" />
+      <Folder Include="wwwroot\lib\signalr" />
     </ItemGroup>
 
 </Project>
