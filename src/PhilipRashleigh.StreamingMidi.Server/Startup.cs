@@ -37,13 +37,13 @@ namespace PhilipRashleigh.StreamingMidi.Server
                 options
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("https://localhost:44393")
+                    .WithOrigins("https://localhost:44387")
                     .AllowCredentials();
             });
 
             app.UseEndpoints(options =>
             {
-                options.MapHub<MidiHub>("/audio");
+                options.MapHub<MidiHub>("/midi");
             });
         }
     }

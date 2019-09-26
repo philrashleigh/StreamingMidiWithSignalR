@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhilipRashleigh.StreamingMi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhilipRashleigh.StreamingMidi.Server", "src\PhilipRashleigh.StreamingMidi.Server\PhilipRashleigh.StreamingMidi.Server.csproj", "{654D8974-F072-4F5E-87B0-DECC78032AF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhilipRashleigh.StreamingMidi.Client", "src\PhilipRashleigh.StreamingMidi.Client\PhilipRashleigh.StreamingMidi.Client.csproj", "{6675BDE7-F57C-4E3F-869D-C9B8F14FB6E0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +18,5 @@ Global
 		{654D8974-F072-4F5E-87B0-DECC78032AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{654D8974-F072-4F5E-87B0-DECC78032AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{654D8974-F072-4F5E-87B0-DECC78032AF7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6675BDE7-F57C-4E3F-869D-C9B8F14FB6E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6675BDE7-F57C-4E3F-869D-C9B8F14FB6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6675BDE7-F57C-4E3F-869D-C9B8F14FB6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6675BDE7-F57C-4E3F-869D-C9B8F14FB6E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
