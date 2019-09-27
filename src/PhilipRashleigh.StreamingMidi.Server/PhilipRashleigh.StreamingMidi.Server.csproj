@@ -8,4 +8,8 @@
       <ProjectReference Include="..\PhilipRashleigh.StreamingMidi.Core\PhilipRashleigh.StreamingMidi.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Other" />
+    </ItemGroup>
+
 </Project>

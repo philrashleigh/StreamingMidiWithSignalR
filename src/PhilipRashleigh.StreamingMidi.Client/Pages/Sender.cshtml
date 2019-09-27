@@ -9,11 +9,11 @@
     <script src="~/lib/signalr/signalr.js"></script>
     <script src="~/js/sender.js" asp-append-version="true"></script>
     <script>
-        let mainAsync = async function() {
+        let mainAsync = async () => {
             await MidiSender.initAsync("https://localhost:5000/midi");
         };
         
-        (function () {
+        (() => {
            mainAsync();
         })();
     </script>

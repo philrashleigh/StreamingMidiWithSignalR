@@ -2,6 +2,6 @@
 {
     public interface IMidiReceiver
     {
-        
+        void Receive(string message);
     }
 }
