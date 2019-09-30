@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
-using Melanchall.DryWetMidi.Smf;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using PhilipRashleigh.StreamingMidi.Core;
@@ -21,6 +22,25 @@ namespace PhilipRashleigh.StreamingMidi.Server.Hubs
         }
 
         public IEnumerable<string> GetRecordings() => _midiFileManager.GetMidiFileList();
+
+        public async IAsyncEnumerable<string> Receive(string name, CancellationToken cancellationToken)
+        {
+            var recording = _midiFileManager.ReadMidiFileAsEventsAndMillisecondDelta(name);
+
+            foreach (var (message, delta) in recording)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
+                
+                await Task.Delay(TimeSpan.FromMilliseconds(delta), cancellationToken);
+                
+                _logger.Log(LogLevel.Debug, $"Playing - {message.Command}: {message.FriendlyNoteName}");
+                
+                yield return message.ToString();
+            }
+        }
         
         public async Task Send(string name, IAsyncEnumerable<string> stream)
         {
@@ -32,7 +52,7 @@ namespace PhilipRashleigh.StreamingMidi.Server.Hubs
             {
                 var message = MidiMessage.Parse(item);
                 
-                _logger.Log(LogLevel.Debug, $"{message.Command}: {message.FriendlyNoteName}");
+                _logger.Log(LogLevel.Debug, $"Recording - {message.Command}: {message.FriendlyNoteName}");
                 
                 midiBuilder.Add(message);
             }

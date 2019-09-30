@@ -1,21 +1,29 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Receiver";
+    ViewData["Title"] = "Listen";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewData["Title"] - Click to Play</h1>
 
-<button onclick="mainAsync();">Start</button>
+<div class="row">
+    <div class="col-12">
+        <ul id="recording-list" class="list-group"></ul>
+    </div>
+</div>
 
 @section Scripts
 {
     <script src="~/lib/signalr/signalr.js"></script>
-    <script src="~/lib/tone/Tone.js"></script>
+    <script src="~/js/synth.js" asp-append-version="true"></script>
     <script src="~/js/receiver.js" asp-append-version="true"></script>
     <script>
         let mainAsync = async () => {
             await MidiReceiver.initAsync("https://localhost:5000/midi");
         };
+        
+        (function() {
+            mainAsync();
+        })();
     </script>
 }

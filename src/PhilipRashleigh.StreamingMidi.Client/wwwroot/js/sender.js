@@ -8,27 +8,27 @@
 
     let sendMidiToServer = (message) => {
         //Stream midi data to SingalR Hub
-        subject.next(message.data.toString());
+        subject.next(message.toString());
     };
-    
+
     let playSynth = (message) => {
-        let frequency = midiNoteToFrequency(message.data[1]);
-    
-        if (message.data[0] === 144 && message.data[2] > 0) {
+        let frequency = midiNoteToFrequency(message[1]);
+
+        if (message[0] === 144 && message[2] > 0) {
             synth.playNote(frequency);
         }
-    
-        if (message.data[0] === 128 || message.data[2] === 0) {
+
+        if (message[0] === 128 || message[2] === 0) {
             synth.stopNote(frequency);
         }
     };
     
-    let subscribeInputs = (midiData, synth, subject) => {
+    let subscribeInputs = (midiData) => {
         //Loop through all midi-controllers available and tie them to onMidiMessage event
         for (let input of midiData.inputs.values()) {
-            input.onmidimessage = function(message) {
-                sendMidiToServer(message);
-                playSynth(message);
+            input.onmidimessage = function(event) {
+                sendMidiToServer(event.data);
+                playSynth(event.data);
             };
         }
     };
@@ -54,7 +54,6 @@
             console.log("Midi initialised");
             
             synth = new Synth();
-
             console.log("Synth initialised");
         };
         
@@ -70,7 +69,7 @@
         document.getElementById('start-button').style.color = 'darkred';
         document.getElementById('status').innerText = 'Recording...';
         
-        subscribeInputs(midiData, subject)
+        subscribeInputs(midiData)
     };
     
     let stopRecordingAsync = async () => {

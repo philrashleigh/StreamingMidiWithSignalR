@@ -7,7 +7,6 @@
 
     <ItemGroup>
       <Folder Include="wwwroot\lib\signalr" />
-      <Folder Include="wwwroot\lib\tone" />
     </ItemGroup>
 
 </Project>

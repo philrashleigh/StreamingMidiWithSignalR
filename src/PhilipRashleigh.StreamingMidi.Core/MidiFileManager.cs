@@ -22,5 +22,15 @@ namespace PhilipRashleigh.StreamingMidi.Core
             var file = midiBuilder.Build();
             file.Write(Path.Combine(_directory, $"{Path.GetFileNameWithoutExtension(name)}.mid"), true, MidiFileFormat.SingleTrack);
         }
+
+        public IEnumerable<(MidiMessage, long)> ReadMidiFileAsEventsAndMillisecondDelta(string name)
+        {
+            var midiFile = MidiFile.Read($"{Path.Combine(_directory, name)}.mid");
+
+            var events = midiFile.Chunks.OfType<TrackChunk>().SelectMany(chunk => chunk.Events).OfType<NoteEvent>()
+                .Select(midiEvent => (midiEvent.ToMidiMessage(), midiEvent.DeltaTime));
+            
+            return events;
+        }
     }
 }
