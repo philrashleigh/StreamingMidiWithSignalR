@@ -1,20 +1,21 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Receiver";
 }
+
+<h1>@ViewData["Title"]</h1>
+
+<button onclick="mainAsync();">Start</button>
 
 @section Scripts
 {
     <script src="~/lib/signalr/signalr.js"></script>
+    <script src="~/lib/tone/Tone.js"></script>
     <script src="~/js/receiver.js" asp-append-version="true"></script>
     <script>
         let mainAsync = async () => {
             await MidiReceiver.initAsync("https://localhost:5000/midi");
         };
-        
-        (() => {
-           mainAsync();
-        })();
     </script>
 }

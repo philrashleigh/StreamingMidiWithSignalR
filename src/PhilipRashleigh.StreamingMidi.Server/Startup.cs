@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PhilipRashleigh.StreamingMidi.Server.Hubs;
+using PhilipRashleigh.StreamingMidi.Server.Other;
 
 namespace PhilipRashleigh.StreamingMidi.Server
 {
@@ -22,6 +23,8 @@ namespace PhilipRashleigh.StreamingMidi.Server
             {    
                 options.EnableDetailedErrors = true;
             });
+
+            services.AddSingleton(new AppState());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
