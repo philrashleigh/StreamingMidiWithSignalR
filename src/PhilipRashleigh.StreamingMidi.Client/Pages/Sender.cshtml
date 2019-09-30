@@ -6,15 +6,33 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<button onclick="mainAsync();">Start</button>
+<div class="row">
+    <div class="col-6"><input type="text" class="form-control" id="name" placeholder="Name.." /></div>
+    <div class="col-3">
+        <div class="row">
+            <div class="col-6">
+                <button onclick="MidiSender.startRecordingAsync();" class="fa fa-dot-circle form-control" id="start-button"></button>
+            </div>
+            <div class="col-6">
+                <button onclick="MidiSender.stopRecordingAsync();" class="form-control fa fa-stop-circle"></button>
+            </div>
+        </div>
+    </div>
+    <div class="col-3"><p style="color: darkred;" id="status"></p></div>
+</div>
 
 @section Scripts
 {
     <script src="~/lib/signalr/signalr.js"></script>
+    <script src="~/js/synth.js" asp-append-version="true"></script>
     <script src="~/js/sender.js" asp-append-version="true"></script>
     <script>
-        let mainAsync = async () => {
-            await MidiSender.initAsync("https://localhost:5000/midi");
-        };
+        (function () {
+            let mainAsync = async () => {
+                await MidiSender.initAsync("https://localhost:5000/midi");
+            };
+            
+            mainAsync();
+        })();
     </script>
 }

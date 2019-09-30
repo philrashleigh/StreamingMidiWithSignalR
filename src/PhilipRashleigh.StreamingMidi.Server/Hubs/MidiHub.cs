@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
+using Melanchall.DryWetMidi.Smf;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using PhilipRashleigh.StreamingMidi.Core;
 using PhilipRashleigh.StreamingMidi.Server.Clients;
-using PhilipRashleigh.StreamingMidi.Server.Other;
 
 // ReSharper disable UnusedMember.Global
 namespace PhilipRashleigh.StreamingMidi.Server.Hubs
@@ -13,35 +12,36 @@ namespace PhilipRashleigh.StreamingMidi.Server.Hubs
     public class MidiHub : Hub<IMidiReceiver>
     {
         private readonly ILogger<MidiHub> _logger;
-        private const string ReceiversGroup = "Receivers";
-        
-        public MidiHub(ILogger<MidiHub> logger, AppState state)
+        private readonly MidiFileManager _midiFileManager;
+
+        public MidiHub(ILogger<MidiHub> logger, MidiFileManager midiFileManager)
         {
             _logger = logger;
+            _midiFileManager = midiFileManager;
         }
 
-        public void RegisterReceiver()
-        {
-            Groups.AddToGroupAsync(Context.ConnectionId, ReceiversGroup);
-        }
+        public IEnumerable<string> GetRecordings() => _midiFileManager.GetMidiFileList();
         
-        public async Task Send(IAsyncEnumerable<string> stream)
+        public async Task Send(string name, IAsyncEnumerable<string> stream)
         {
-            _logger.Log(LogLevel.Information, "Sender Connected");
+            _logger.Log(LogLevel.Information, "Recording started");
 
-            await foreach (var message in stream)
+            var midiBuilder = new MidiBuilder();
+
+            await foreach (var item in stream)
             {
-                await Clients.Group(ReceiversGroup).Receive(message);
+                var message = MidiMessage.Parse(item);
                 
-                //On separate thread so as to minimise additional latency of logging preventing additional message processing
-                #pragma warning disable 4014
-                                Task.Run(() =>
-                                {
-                                    var midiMessage = MidiMessage.Parse(message);
-                                    _logger.Log(LogLevel.Debug, $"{midiMessage.Command}, note: {midiMessage.Note}");
-                                });
-                #pragma warning restore 4014
+                _logger.Log(LogLevel.Debug, $"{message.Command}: {message.FriendlyNoteName}");
+                
+                midiBuilder.Add(message);
             }
+
+            _logger.Log(LogLevel.Information, "Recording complete");
+            
+            _midiFileManager.Save(midiBuilder, name);
+            
+            _logger.Log(LogLevel.Information, $"File saved as {name}.mid");
         }
     }
 }

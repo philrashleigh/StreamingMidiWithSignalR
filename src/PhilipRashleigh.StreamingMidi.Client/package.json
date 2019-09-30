@@ -10,6 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@microsoft/signalr": "^3.0.0"
+    "@microsoft/signalr": "^3.0.0",
+    "signalr": "^2.4.1",
+    "tone": "^13.8.25"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.11.2"
   }
 }
